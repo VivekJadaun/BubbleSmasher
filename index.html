@@ -6,7 +6,7 @@
 	<meta name="apple-mobile-web-app-capable" content="yes" />
 	<meta name="apple-mobile-web-app-status-bar-style" content="white-translucent"/>
 	<style type="text/css">
-		body {margin:0; padding:0; background: #1e6868;}
+		body {margin:0; padding:0; background: #000;}
 		canvas {display: block; margin: 0 auto; background: #fff;}
 	</style>
 </head>
@@ -16,6 +16,15 @@
 	</canvas>
 
 	<script>
+
+		// http://paulirish.com/2011/requestanimationframe-for-smart-animating
+		// shim layer with setTimeout fallback
+		window.requestAnimFrame = (function(){
+			return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame || function(callback){
+				window.setTimeout(callback, 100/60);
+			};
+
+		})();
 		var game={
 
 			//setting up initial values
@@ -312,15 +321,6 @@
 			};
 		};
 
-
-		// http://paulirish.com/2011/requestanimationframe-for-smart-animating
-		// shim layer with setTimeout fallback
-		window.requestAnimFrame = (function(){
-			return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame || function(callback){
-				window.setTimeout(callback, 100/60);
-			};
-
-		})();
 		window.addEventListener('load',game.init,false);
 		window.addEventListener('resize',game.resize,false);
 
