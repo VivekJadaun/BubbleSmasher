@@ -1,10 +1,10 @@
 <!doctype html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
+	<!-- <meta charset="UTF-8"> -->
 	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1, user-scalable=0"/>
 	<meta name="apple-mobile-web-app-capable" content="yes" />
-	<meta name="apple-mobile-web-app-status-bar-style" content="white-translucent"/>
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
 	<style type="text/css">
 		body {margin:0; padding:0; background: #000;}
 		canvas {display: block; margin: 0 auto; background: #fff;}
@@ -20,12 +20,17 @@
 		// http://paulirish.com/2011/requestanimationframe-for-smart-animating
 		// shim layer with setTimeout fallback
 		window.requestAnimFrame = (function(){
-			return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame || function(callback){
-				window.setTimeout(callback, 100/60);
-			};
-
+			return 	window.requestAnimationFrame || 
+							window.webkitRequestAnimationFrame || 
+							window.mozRequestAnimationFrame || 
+							window.oRequestAnimationFrame || 
+							window.msRequestAnimationFrame || 
+							function(callback){
+								window.setTimeout(callback, 1000/60);
+							};
 		})();
-		var game={
+
+		var game = {
 
 			//setting up initial values
 			width: 320,
@@ -43,33 +48,6 @@
 			entities: [],
 			nextBubble: 100,
 			score: { taps: 0, hit: 0, accuracy: 0, escaped:0}, //game statistics
-
-			//drawing shapes 
-			Draw: {
-
-				clear: function () {
-					game.ctx.clearRect(0,0,game.width, game.height);
-				},
-
-				rect: function(x, y, w, h, col){
-					game.ctx.fillStyle = col;
-					game.ctx.fillRect(x, y, w, h);
-				},
-
-				circle: function(x, y, r, col){
-					game.ctx.fillStyle = col;
-					game.ctx.beginPath();
-					game.ctx.arc(x+5, y+5, r, 0, Math.PI*2, true);
-					game.ctx.closePath();
-					game.ctx.fill();
-				},
-
-				text: function(string, x, y, size, col){
-					game.ctx.font = 'bold '+size+'px Monospace';
-					game.ctx.fillStyle = col;
-					game.ctx.fillText(string, x, y);
-				}
-			},
 
 			init: function() {
 				// the ratio of width to height
@@ -104,21 +82,21 @@
 				window.addEventListener('click', function(e){
 					e.preventDefault();
 					game.Input.set(e);
-				},false);
+				}, false);
 
 				//listening for touches
 				window.addEventListener('touchstart',function(e){
 					e.preventDefault();
 					//the event object has an array named 'touches'. We just want the first touch(i.e. touches[0])
 					game.Input.set(e.touches[0]);
-				},false);
+				}, false);
 				window.addEventListener('touchmove',function(e){
 					//to prevent default scrolling/zooming behaviour
 					e.preventDefault();
-				},false);
+				}, false);
 				window.addEventListener('touchend',function(e){
 					e.preventDefault()
-				},false);
+				}, false);
 
 				game.resize();
 				game.loop();
@@ -171,7 +149,7 @@
 				game.wave.time = new Date().getTime()*0.002;
 				game.wave.offset = Math.sin(game.wave.time*0.8)*5;
 				game.score.accuracy = (game.score.hit / game.score.taps) * 100;
-				game.score.accuracy = isNaN(game.score.accuracy)?0:~~(game.score.accuracy) 			// to round floats
+				game.score.accuracy = isNaN(game.score.accuracy) ? 0 : ~~(game.score.accuracy) 			// to round floats
 			},
 
 			render: function(){
@@ -222,6 +200,33 @@
 			}
 		};
 
+		//drawing shapes 
+		game.Draw = {
+
+				clear: function () {
+					game.ctx.clearRect(0, 0, game.width, game.height);
+				},
+
+				rect: function(x, y, w, h, col){
+					game.ctx.fillStyle = col;
+					game.ctx.fillRect(x, y, w, h);
+				},
+
+				circle: function(x, y, r, col){
+					game.ctx.fillStyle = col;
+					game.ctx.beginPath();
+					game.ctx.arc(x+5, y+5, r, 0, Math.PI*2, true);
+					game.ctx.closePath();
+					game.ctx.fill();
+				},
+
+				text: function(string, x, y, size, col){
+					game.ctx.font = 'bold '+size+'px Monospace';
+					game.ctx.fillStyle = col;
+					game.ctx.fillText(string, x, y);
+				}
+			};
+			
 		game.Input = {
 			x: 0,
 			y: 0,
