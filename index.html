@@ -163,6 +163,11 @@
 			game.wave.offset = Math.sin(game.wave.time*0.8)*5;
 			game.score.accuracy = (game.score.hit / game.score.taps) * 100;
 			game.score.accuracy = isNaN(game.score.accuracy) ? 0 : ~~(game.score.accuracy) 			// to round floats
+
+			if(game.score.escaped>=10){
+				alert("GAME OVER!!");
+				document.location.reload();
+			}
 		},
 
 		render: function(){
