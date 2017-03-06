@@ -165,8 +165,11 @@
 			game.score.accuracy = isNaN(game.score.accuracy) ? 0 : ~~(game.score.accuracy) 			// to round floats
 
 			if(game.score.escaped>=10){
-				alert("GAME OVER!!");
-				document.location.reload();
+				var choice = confirm("GAME OVER!!");
+				if (choice == true) 
+                    document.location.reload();
+                else
+                    myWindow.close();
 			}
 		},
 
